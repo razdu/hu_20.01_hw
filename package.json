@@ -1,0 +1,30 @@
+{
+  "name": "hu_20.01_hw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node .",
+    "dev": "npx nodemon node ."
+  },
+  "dependencies": {
+    "express": "4.17.2",
+    "fs-extra": "10.0.0",
+    "mongoose": "6.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/razdu/hu_20.01_hw.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/razdu/hu_20.01_hw/issues"
+  },
+  "homepage": "https://github.com/razdu/hu_20.01_hw#readme"
+}

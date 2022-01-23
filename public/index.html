@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <title>Document</title>
+    </head>
+    <body>
+        <label for="studentName">Name: </label>
+        <input type="text" data-role="studentName" name="studentName" /> <br />
+        <label for="studentAge">Age: </label>
+        <input type="number" data-role="studentAge" name="studentAge" /> <br />
+        <label for="studentGrade">Grade: </label>
+        <input type="number" data-role="studentGrade" name="studentGrade" />
+        <input type="button" value="Add Student" data-role="save" />
+        <input type="button" value="Show Students" data-role="show" />
+        <input type="button" value="Find Student" data-role="byName" />
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Grade</th>
+            </tr>
+            <tbody id="studentsRecords"></tbody>
+        </table>
+        <script>
+            $(function () {
+                let studentName = $('[data-role="studentName"]');
+                let studentAge = $('[data-role="studentAge"]');
+                let studentGrade = $('[data-role="studentGrade"]');
+                $('[data-role="save"]').click(() => {
+                    let name = studentName.val();
+                    let age = studentAge.val();
+                    let grade = studentGrade.val();
+                    $.post("/addStudent", { name, age, grade }, (data) => {
+                        console.log(JSON.stringify(data));
+                    });
+                });
+                $('[data-role="show"]').click(() => {
+                    $("#studentsRecords").empty();
+                    fetch("/getAllStudents")
+                        .then((res) => res.json())
+                        .then((data) => {
+                            for (let i = 0; i < data.length; i++) {
+                                let { name, age, grade } = data[i];
+
+                                $("#studentsRecords").append(
+                                    `<tr>
+                                    <th>${name}</th>
+                                    <th>${age}</th>
+                                    <th>${grade}</th>
+                                    </tr>`
+                                );
+                            }
+                        });
+                });
+                $('[data-role="byName"]').click(() => {
+                    let name = $('[data-role="studentName"]').val();
+                    $.get("/getStudentsByName", { name }, (data) => {
+                        $("#studentsRecords").empty();
+                        $("#studentsRecords").append(
+                            `<tr>
+                                    <th>${data.name}</th>
+                                    <th>${data.age}</th>
+                                    <th>${data.grade}</th>
+                                    </tr>`
+                        );
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
